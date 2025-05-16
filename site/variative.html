@@ -1,1 +1,171 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Вариативная часть проекта INVADE - анализ безопасности веб-сервера">
+  <meta name="keywords" content="INVADE, вариативная часть, безопасность, веб-сервер, логирование">
+  <title>Вариативная часть - INVADE</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="main-header">
+    <div class="header-container">
+      <div class="logo-container">
+        <h1>INVADE</h1>
+        <p class="subtitle">Группа проектов игровой индустрии</p>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Главная</a></li>
+          <li><a href="about.html">О проекте</a></li>
+          <li><a href="members.html">Участники</a></li>
+          <li><a href="journal.html">Журнал</a></li>
+          <li><a href="resources.html">Ресурсы</a></li>
+          <li><a href="variative.html" class="active">Вариативная часть</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
+  <main>
+    <section class="hero-section">
+      <div class="hero-content">
+        <h2>Анализ безопасности веб-сервера</h2>
+        <p class="hero-description">Система логирования и анализ событий безопасности</p>
+      </div>
+    </section>
+
+    <section class="main-content">
+      <div class="content-container">
+        <article class="feature-article">
+          <div class="project-goals">
+            <h3>Цели и задачи проекта</h3>
+            <p><strong>Основная цель:</strong> Настройка системы логирования и базового анализа событий безопасности веб-сервера.</p>
+            <ul>
+              <li>Установка и настройка веб-сервера Apache</li>
+              <li>Настройка ведения логов доступа и ошибок</li>
+              <li>Обработка логов различных типов атак</li>
+              <li>Создание шаблонов отчетов по инцидентам безопасности</li>
+            </ul>
+            <div class="important-notice">
+              <p><strong>Примечание:</strong> Все тестирования и анализ проводились в изолированной среде.</p>
+            </div>
+          </div>
+
+          <div class="security-analysis">
+            <h3>Анализ атак</h3>
+            
+            <div class="attack-type">
+              <h4>Brute-force атака</h4>
+              <table class="incident-card">
+                <tr><td>Тип инцидента</td><td>Brute-force (перебор паролей через POST)</td></tr>
+                <tr><td>Дата/время</td><td>14 мая 2025, 06:26</td></tr>
+                <tr><td>IP-адрес</td><td>127.0.0.1</td></tr>
+                <tr><td>Цель запроса</td><td>/login.php</td></tr>
+                <tr><td>Метод</td><td>POST</td></tr>
+                <tr><td>Инструмент</td><td>hydra</td></tr>
+                <tr><td>User</td><td>admin</td></tr>
+                <tr><td>Пароль найден?</td><td>Да, через словарь rockyou.txt</td></tr>
+                <tr><td>Лог Apache</td><td>/var/log/apache2/access.log</td></tr>
+                <tr><td>Признаки</td><td>Много повторяющихся POST-запросов с разными паролями</td></tr>
+                <tr><td>Контрмеры</td><td>Ограничение количества попыток входа, установка fail2ban, Captcha</td></tr>
+              </table>
+            </div>
+
+            <div class="attack-type">
+              <h4>SQL-инъекция</h4>
+              <table class="incident-card">
+                <tr><td>Дата/время</td><td>14 мая 2025, 06:44</td></tr>
+                <tr><td>IP-адрес</td><td>127.0.0.1 (локальный тест)</td></tr>
+                <tr><td>Цель запроса</td><td>/sqltest.php?id=1' ORDER BY X#</td></tr>
+                <tr><td>Тип инцидента</td><td>SQL-инъекция (SQL Injection — Injection testing via ORDER BY)</td></tr>
+                <tr><td>Метод запроса</td><td>GET</td></tr>
+                <tr><td>User-Agent</td><td>Mozilla/5.0 ... Chrome/22 ...</td></tr>
+                <tr><td>Источник</td><td>sqlmap</td></tr>
+                <tr><td>Лог Apache</td><td>/var/log/apache2/access.log</td></tr>
+                <tr><td>Меры реагирования</td><td>Фильтрация параметра, валидация чисел, использование prepared statements</td></tr>
+              </table>
+            </div>
+
+            <div class="attack-type">
+              <h4>DoS-атака</h4>
+              <table class="incident-card">
+                <tr><td>Время</td><td>14 мая 2025, 06:35</td></tr>
+                <tr><td>Тип атаки</td><td>DoS (Slowloris)</td></tr>
+                <tr><td>Инструмент</td><td>slowloris</td></tr>
+                <tr><td>Признаки</td><td>MaxRequestWorkers reached, висящие PHP-запросы</td></tr>
+                <tr><td>Ошибки</td><td>Undefined array key "user" — запросы без тела</td></tr>
+                <tr><td>Метод реагирования</td><td>Установка mod_reqtimeout, увеличение MaxRequestWorkers</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <div class="monitoring-commands">
+            <h3>Команды мониторинга</h3>
+            <table class="commands-table">
+              <tr>
+                <th>Тип атаки</th>
+                <th>Команда</th>
+              </tr>
+              <tr>
+                <td>Brute-force</td>
+                <td><code>grep "POST /login.php" + `awk '{print $1}'`</code></td>
+              </tr>
+              <tr>
+                <td>SQL-инъекция</td>
+                <td><code>grep "sqltest.php" + `grep -Ei "union`</code></td>
+              </tr>
+              <tr>
+                <td>DoS (L7)</td>
+                <td><code>grep MaxRequestWorkers /var/log/apache2/error.log</code></td>
+              </tr>
+              <tr>
+                <td>PHP-ошибки</td>
+                <td><code>grep "Undefined array key" /var/log/apache2/error.log</code></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="security-recommendations">
+            <h3>Рекомендуемые меры защиты</h3>
+            <ul>
+              <li>Использование prepared statements в коде</li>
+              <li>Ограничение количества соединений и попыток</li>
+              <li>Внедрение модулей mod_reqtimeout, fail2ban, WAF</li>
+            </ul>
+          </div>
+
+          <div class="conclusion">
+            <h3>Заключение</h3>
+            <p>В результате работы была успешно реализована система базовой безопасности веб-сервера Apache с акцентом на логирование и анализ событий безопасности. Проведены практические тесты трёх типов атак, разработаны и внедрены соответствующие меры защиты. Созданы шаблоны отчетности по инцидентам безопасности.</p>
+            
+            <p>Основные достижения:</p>
+            <ul>
+              <li>Настроена система логирования</li>
+              <li>Проведено тестирование различных типов атак</li>
+              <li>Разработаны карточки инцидентов</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <p>&copy; 2024 Проект "INVADE". Все права защищены.</p>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-link">VK</a>
+        <a href="#" class="social-link">Telegram</a>
+        <a href="#" class="social-link">YouTube</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html> 
