@@ -79,7 +79,7 @@ body {
 .main-nav a:hover,
 .main-nav a.active {
   color: var(--primary-color);
-  background-color: rgba(88, 166, 255, 0.1);
+  background-color: transparent;
 }
 
 /* Секция героя */
@@ -89,6 +89,12 @@ body {
   padding: 6rem 2rem;
   text-align: center;
   margin-bottom: 4rem;
+}
+
+/* Вариативная часть - фон с замком */
+body:has(.hero-section + .main-content .security-analysis) .hero-section {
+  background: linear-gradient(rgba(13, 17, 23, 0.8), rgba(13, 17, 23, 0.8)),
+              url('images/zamok.png') center/cover;
 }
 
 .hero-content {
@@ -124,9 +130,11 @@ body {
 .feature-article {
   background-color: var(--bg-secondary);
   border-radius: 12px;
-  padding: 2rem;
+  padding: 2.5rem;
   margin-bottom: 3rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-color);
+  animation: fadeIn 0.8s ease-out;
 }
 
 .article-text {
@@ -197,7 +205,7 @@ body {
 
 .social-link:hover {
   color: var(--primary-color);
-  background-color: rgba(88, 166, 255, 0.1);
+  background-color: transparent;
 }
 
 /* Медиа-запросы */
@@ -267,11 +275,44 @@ body {
   background-color: var(--bg-secondary);
   border-radius: 8px;
   border-left: 4px solid var(--primary-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.project-goals p {
-  margin: 0;
-  line-height: 1.8;
+.project-goals:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+
+.project-goals h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.2rem;
+}
+
+.project-goals ul {
+  margin-top: 1rem;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.project-goals ul li {
+  position: relative;
+  padding-left: 1.8rem;
+  margin-bottom: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.project-goals ul li:hover {
+  transform: translateX(5px);
+}
+
+.project-goals ul li:before {
+  content: "•";
+  color: var(--primary-color);
+  position: absolute;
+  left: 0.5rem;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 /* Стили команды */
@@ -598,4 +639,245 @@ body {
   .resource-card {
     padding: 1.5rem;
   }
+}
+
+/* Стили для блока примечания */
+.important-notice {
+  background-color: rgba(248, 81, 73, 0.1);
+  padding: 1.2rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  border-left: 4px solid #f85149;
+  border: 1px solid #f85149;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.important-notice:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.important-notice p {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.important-notice strong {
+  color: #f85149;
+  font-weight: 600;
+}
+
+/* Стили для анализа безопасности */
+.security-analysis {
+  margin-top: 2.5rem;
+}
+
+.attack-type {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.attack-type:hover {
+  transform: translateY(-5px);
+}
+
+.attack-type h4 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.incident-card {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.incident-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.incident-card td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.incident-card tr:hover td:nth-child(2) {
+  background-color: transparent;
+}
+
+.incident-card td:first-child {
+  background-color: var(--bg-color);
+  width: 30%;
+  font-weight: 500;
+  color: var(--primary-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.commands-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.commands-table:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.commands-table th,
+.commands-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.commands-table tr:hover td {
+  background-color: transparent;
+}
+
+.commands-table th {
+  background-color: var(--bg-color);
+  font-weight: 500;
+  color: var(--primary-color);
+}
+
+code {
+  background-color: var(--bg-color);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  border: 1px solid rgba(88, 166, 255, 0.2);
+  transition: background-color 0.2s ease;
+}
+
+code:hover {
+  background-color: transparent;
+}
+
+/* Стили для заключения и рекомендаций */
+.conclusion {
+  margin-top: 2.5rem;
+  padding: 2rem;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.conclusion:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.conclusion h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.conclusion ul {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+  list-style-type: none;
+}
+
+.conclusion ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.conclusion ul li:hover {
+  transform: translateX(5px);
+}
+
+.conclusion ul li:before {
+  content: "→";
+  color: var(--primary-color);
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+.security-recommendations {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background-color: rgba(46, 160, 67, 0.1);
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #2ea043;
+}
+
+.security-recommendations:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.security-recommendations h3 {
+  color: #2ea043;
+  margin-bottom: 1rem;
+}
+
+.security-recommendations ul {
+  padding-left: 1.5rem;
+  list-style-type: none;
+}
+
+.security-recommendations ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.security-recommendations ul li:hover {
+  transform: translateX(5px);
+}
+
+.security-recommendations ul li:before {
+  content: "✓";
+  color: #2ea043;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+}
+
+/* Стили для секции команд мониторинга */
+.monitoring-commands {
+  margin-top: 2.5rem;
+  padding: 1.5rem;
+  background-color: rgba(88, 166, 255, 0.05);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.monitoring-commands:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.monitoring-commands h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
 }
